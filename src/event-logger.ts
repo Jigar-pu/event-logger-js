@@ -23,7 +23,7 @@ import { BaseAdapter } from "./adapters/base.adapter.js";
  *
  * @example postgres with individual params
  * ```ts
- * import { EventLogger } from "event-logger-js";
+ * import { EventLogger } from "multi-db-event-logger";
  *
  * const logger = new EventLogger({
  *   type: "postgres",

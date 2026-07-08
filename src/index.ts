@@ -1,4 +1,4 @@
-// public exports for event-logger-js
+// public exports for multi-db-event-logger
 
 export { EventLogger } from "./event-logger.js";
 

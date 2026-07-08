@@ -1,9 +1,9 @@
-# 📋 event-logger-js
+# 📋 multi-db-event-logger
 
 A flexible, database-agnostic event logger for Node.js with **MongoDB** and **PostgreSQL** support, AES-256-GCM encryption, and a clean TypeScript-first API.
 
-[![npm version](https://img.shields.io/npm/v/event-logger-js.svg)](https://www.npmjs.com/package/event-logger-js)
-[![license](https://img.shields.io/npm/l/event-logger-js.svg)](LICENSE)
+[![npm version](https://img.shields.io/npm/v/multi-db-event-logger.svg)](https://www.npmjs.com/package/multi-db-event-logger)
+[![license](https://img.shields.io/npm/l/multi-db-event-logger.svg)](LICENSE)
 
 <br/>
 
@@ -26,7 +26,7 @@ A flexible, database-agnostic event logger for Node.js with **MongoDB** and **Po
 ## 📦 Installation
 
 ```bash
-npm install event-logger-js
+npm install multi-db-event-logger
 ```
 
 Then install the driver for your database:
@@ -48,7 +48,7 @@ npm install pg
 ### MongoDB
 
 ```typescript
-import { EventLogger } from 'event-logger-js';
+import { EventLogger } from 'multi-db-event-logger';
 
 const logger = new EventLogger({
   type: 'mongodb',
@@ -80,7 +80,7 @@ await logger.disconnect();
 ### PostgreSQL
 
 ```typescript
-import { EventLogger } from 'event-logger-js';
+import { EventLogger } from 'multi-db-event-logger';
 
 const logger = new EventLogger({
   type: 'postgres',
@@ -252,7 +252,7 @@ import type {
   GetEventsParams,
   GetEventsResult,
   StoredEvent,
-} from 'event-logger-js';
+} from 'multi-db-event-logger';
 ```
 
 <br/>

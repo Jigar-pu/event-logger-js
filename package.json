@@ -34,7 +34,7 @@
     "encryption",
     "activity-logger",
     "activity-tracker",
-    "event-logger-js"
+    "multi-db-event-logger"
   ],
   "scripts": {
     "build": "tsup",
