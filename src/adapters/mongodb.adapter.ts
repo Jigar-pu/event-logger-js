@@ -1,4 +1,4 @@
-import { MongoClient, Db, Collection, ObjectId } from "mongodb";
+import type { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import { BaseAdapter } from "./base.adapter.js";
 import {
   AddEventParams,
@@ -53,6 +53,7 @@ export class MongoAdapter extends BaseAdapter {
     if (MongoAdapter._registry.has(this.url)) return;
 
     try {
+      const { MongoClient } = await import("mongodb");
       const client = new MongoClient(this.url);
       await client.connect();
       const db = client.db();

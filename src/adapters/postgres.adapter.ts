@@ -1,4 +1,4 @@
-import { Pool, PoolClient, PoolConfig } from "pg";
+import type { Pool, PoolClient, PoolConfig } from "pg";
 import { BaseAdapter } from "./base.adapter.js";
 import {
   AddEventParams,
@@ -13,7 +13,7 @@ const MASTER_TABLE = "master_event_logs";
 
 // one entry per unique connection, shared across all adapter instances
 interface RegistryEntry {
-  pool: Pool;
+  pool?: Pool;
   // tracks which tables we've already run CREATE TABLE IF NOT EXISTS on,
   // so we don't repeat DDL on every query
   ensuredTables: Set<string>;
@@ -78,13 +78,11 @@ export class PostgresAdapter extends BaseAdapter {
     }
   }
 
-  // returns the registry entry, creating the pool if this is the first time.
-  // new Pool() is synchronous and doesn't open any real connections yet.
+  // returns the registry entry, creating it if this is the first time.
   private getOrCreateEntry(): RegistryEntry {
     let entry = PostgresAdapter._registry.get(this.connectionKey);
     if (!entry) {
       entry = {
-        pool: new Pool(this.poolConfig),
         ensuredTables: new Set<string>(),
         connected: false,
       };
@@ -95,7 +93,7 @@ export class PostgresAdapter extends BaseAdapter {
 
   private getPool(): Pool {
     const entry = PostgresAdapter._registry.get(this.connectionKey);
-    if (!entry?.connected) {
+    if (!entry?.connected || !entry.pool) {
       throw new Error(
         "[EventLogger/PostgreSQL] not connected. call connect() first."
       );
@@ -112,6 +110,10 @@ export class PostgresAdapter extends BaseAdapter {
    */
   async connect(): Promise<void> {
     const entry = this.getOrCreateEntry();
+    if (!entry.pool) {
+      const { Pool } = await import("pg");
+      entry.pool = new Pool(this.poolConfig);
+    }
 
     if (entry.connected) return;
 
@@ -135,7 +137,7 @@ export class PostgresAdapter extends BaseAdapter {
    */
   async disconnect(): Promise<void> {
     const entry = PostgresAdapter._registry.get(this.connectionKey);
-    if (entry) {
+    if (entry && entry.pool) {
       await entry.pool.end();
       PostgresAdapter._registry.delete(this.connectionKey);
       console.log("[EventLogger/PostgreSQL] disconnected");
