@@ -1,5 +1,5 @@
 {
-  "name": "event-logger-js",
+  "name": "multi-db-event-logger",
   "version": "1.0.0",
   "description": "A flexible event logger with MongoDB and PostgreSQL support, featuring AES-256-GCM encryption.",
   "author": "Jigar Suthar",
