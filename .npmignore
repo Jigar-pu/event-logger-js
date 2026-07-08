@@ -1,0 +1,13 @@
+# Source (not needed in published package — dist/ is what consumers use)
+src/
+
+# Build config (not needed by consumers)
+tsup.config.ts
+tsconfig.json
+
+# Dev artifacts
+node_modules/
+*.tgz
+*.map
+.env
+.env.*
